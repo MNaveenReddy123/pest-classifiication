@@ -2,7 +2,12 @@ import os
 import cv2
 import numpy as np
 import pickle
+import os
+from dotenv import load_dotenv
 import google.generativeai as genai
+
+load_dotenv()  # Load environment variables from .env file
+
 from flask import Flask, render_template, request
 from tensorflow.keras.models import load_model
 import markdown 
@@ -25,7 +30,8 @@ with open("class_labels.pkl", "rb") as f:
     class_labels = pickle.load(f)
 
 # Configure Gemini API
-genai.configure(api_key="AIzaSyCPU7jCOf1u2zMsjqWL1P5SZX3x9dI-Irc")  # Replace with your Gemini API key
+genai.configure(api_key=os.getenv("GEMINI_API_KEY"))  # Use the API key from the environment variable
+
 
 def predict_image(image_path):
     """Processes an image and makes a prediction using the trained model."""
